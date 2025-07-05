@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
-
+import { useDispatch, useSelector } from "react-redux"
+import { add, remove } from "./store"
 
 
 export default function WeatherCard() {
@@ -8,6 +9,9 @@ export default function WeatherCard() {
     const [input, setInput] = useState("")
     const [city, setCity] = useState('Thessaloniki')
     const [weatherData, setWeatherData] = useState({})
+    const dispatch = useDispatch();
+    const favorites = useSelector(state => state.Favorites.value);
+    const isFavorite = favorites.some(city => city.name === weatherData.name);
 
     async function getCity(city) {
 
@@ -82,7 +86,12 @@ export default function WeatherCard() {
                 <p>Temperature: {tempFormat ? Math.round(weatherData.temp - 273.15) : Math.round((weatherData.temp - 273.15) * 1.8 + 32)} {tempFormat ? "°C" : "°F"}</p>
                 <p>Humidity: {weatherData.humidity} %</p>
                 <p>Wind Speed: {weatherData.speed * 3600 / 1000} Km/h</p>
-            </div>
+                <button onClick={() =>
+                    isFavorite
+                        ? dispatch(remove({ name: weatherData.name }))
+                        : dispatch(add(weatherData))
+                }>{isFavorite ? "❌" : "❤"}</button>
+            </div><br></br>
             <button onClick={switchFormat}>{tempFormat ? "Celsius" : "Fahrenheit"}</button>
         </>
     )

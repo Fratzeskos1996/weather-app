@@ -1,8 +1,8 @@
 import PageLayout from './components/PageLayout'
 import WeatherCard from './components/WeatherCard'
 import './App.css'
-import { Provider } from "@reduxjs/toolkit";
-import { store } from "./components/store"
+import { Provider } from "react-redux";
+import store from "./components/store"
 
 function App() {
 
