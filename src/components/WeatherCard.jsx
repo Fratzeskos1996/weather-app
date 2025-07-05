@@ -3,15 +3,16 @@ import { useDispatch, useSelector } from "react-redux"
 import { add, remove } from "./store"
 
 
-export default function WeatherCard() {
+export default function WeatherCard({ inputDisplay, data = null }) {
 
     const [tempFormat, setTempFormat] = useState(true)
     const [input, setInput] = useState("")
     const [city, setCity] = useState('Thessaloniki')
     const [weatherData, setWeatherData] = useState({})
+    const currentData = data || weatherData;
     const dispatch = useDispatch();
     const favorites = useSelector(state => state.Favorites.value);
-    const isFavorite = favorites.some(city => city.name === weatherData.name);
+    const isFavorite = favorites.some(city => city.name === currentData.name);
 
     async function getCity(city) {
 
@@ -61,7 +62,7 @@ export default function WeatherCard() {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => { getWeather(city) }, [city])
+    useEffect(() => { if (!data) getWeather(city) }, [city, data])
 
 
     function handleSubmit(e) {
@@ -75,24 +76,32 @@ export default function WeatherCard() {
     }
 
     return (
-        <>
+        <>{(inputDisplay) ?
             <form onSubmit={handleSubmit}>
                 <input placeholder="Search City" value={input} onChange={(e) => setInput(e.target.value)} /><br />
-                <button onClick={(e) => setCity(e.target.value)}>Search</button>
+                <button>Search</button>
             </form>
+            : ""}
             <div className="weatherContainer">
-                <h3>{weatherData.name}</h3>
-                <p>{weatherData.description} <img src={`https://openweathermap.org/img/wn/${weatherData.icon}@2x.png`} alt="Weather Icon" /></p>
-                <p>Temperature: {tempFormat ? Math.round(weatherData.temp - 273.15) : Math.round((weatherData.temp - 273.15) * 1.8 + 32)} {tempFormat ? "°C" : "°F"}</p>
-                <p>Humidity: {weatherData.humidity} %</p>
-                <p>Wind Speed: {weatherData.speed * 3600 / 1000} Km/h</p>
+                <h3>{currentData.name}</h3>
+                <p>{currentData.description}
+                    <img src={`https://openweathermap.org/img/wn/${currentData.icon}@2x.png`} alt="Weather Icon" /></p>
+                <p>Temperature:
+                    {tempFormat ? Math.round(currentData.temp - 273.15)
+                        : Math.round((currentData.temp - 273.15) * 1.8 + 32)}
+                    {tempFormat ? "°C" : "°F"}</p>
+                <p>Humidity: {currentData.humidity} %</p>
+                <p>Wind Speed: {Math.round(currentData.speed * 3.6)} Km/h</p>
                 <button onClick={() =>
                     isFavorite
-                        ? dispatch(remove({ name: weatherData.name }))
-                        : dispatch(add(weatherData))
+                        ? dispatch(remove({ name: currentData.name }))
+                        : dispatch(add(currentData))
                 }>{isFavorite ? "❌" : "❤"}</button>
-            </div><br></br>
-            <button onClick={switchFormat}>{tempFormat ? "Celsius" : "Fahrenheit"}</button>
+            </div>
+            <br />
+            <button onClick={switchFormat}>
+                {tempFormat ? "Celsius" : "Fahrenheit"}
+            </button>
         </>
     )
 }
