@@ -7,7 +7,7 @@ export default function WeatherCard({ inputDisplay, data = null }) {
 
     const [tempFormat, setTempFormat] = useState(true)
     const [input, setInput] = useState("")
-    const [city, setCity] = useState('Thessaloniki')
+    const [city, setCity] = useState('')
     const [weatherData, setWeatherData] = useState({})
     const currentData = data || weatherData;
     const dispatch = useDispatch();
@@ -82,22 +82,23 @@ export default function WeatherCard({ inputDisplay, data = null }) {
                 <button>Search</button>
             </form>
             : ""}
-            <div className="weatherContainer">
-                <h3>{currentData.name}</h3>
-                <p>{currentData.description}
-                    <img src={`https://openweathermap.org/img/wn/${currentData.icon}@2x.png`} alt="Weather Icon" /></p>
-                <p>Temperature:
-                    {tempFormat ? Math.round(currentData.temp - 273.15)
-                        : Math.round((currentData.temp - 273.15) * 1.8 + 32)}
-                    {tempFormat ? "°C" : "°F"}</p>
-                <p>Humidity: {currentData.humidity} %</p>
-                <p>Wind Speed: {Math.round(currentData.speed * 3.6)} Km/h</p>
-                <button onClick={() =>
-                    isFavorite
-                        ? dispatch(remove({ name: currentData.name }))
-                        : dispatch(add(currentData))
-                }>{isFavorite ? "❌" : "❤"}</button>
-            </div>
+            {currentData.name && (
+                <div className="weatherContainer">
+                    <h3>{currentData.name}</h3>
+                    <p>{currentData.description}
+                        <img src={`https://openweathermap.org/img/wn/${currentData.icon}@2x.png`} alt="Weather Icon" /></p>
+                    <p>Temperature:
+                        {tempFormat ? Math.round(currentData.temp - 273.15)
+                            : Math.round((currentData.temp - 273.15) * 1.8 + 32)}
+                        {tempFormat ? "°C" : "°F"}</p>
+                    <p>Humidity: {currentData.humidity} %</p>
+                    <p>Wind Speed: {Math.round(currentData.speed * 3.6)} Km/h</p>
+                    <button onClick={() =>
+                        isFavorite
+                            ? dispatch(remove({ name: currentData.name }))
+                            : dispatch(add(currentData))
+                    }>{isFavorite ? "❌" : "❤"}</button>
+                </div>)}
             <br />
             <button onClick={switchFormat}>
                 {tempFormat ? "Celsius" : "Fahrenheit"}
