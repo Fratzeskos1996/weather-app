@@ -9,7 +9,7 @@ export default function Favorites() {
         <>
             <PageLayout>
                 {favorites.length === 0 ?
-                    <p>No Favorite Cities!</p>
+                    <p>No Favorite Yet!</p>
                     :
                     favorites.map(city =>
                         <WeatherCard key={city.name} inputDisplay={false} data={city} />
