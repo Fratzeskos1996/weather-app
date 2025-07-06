@@ -1,0 +1,36 @@
+.weatherContainer {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 2rem auto;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
+}
+
+.weatherContainer img {
+  vertical-align: middle;
+  height: 48px;
+}
+
+.weatherContainer button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem;
+  transition: transform 0.2s ease;
+}
+
+.weatherContainer button:hover {
+  transform: scale(1.2);
+}
+
+input {
+  background-color: #2c2c2c;
+  border: 1px solid #444;
+  padding: 0.5rem;
+  border-radius: 6px;
+  color: white;
+  width: 80%;
+  margin-bottom: 1rem;
+}

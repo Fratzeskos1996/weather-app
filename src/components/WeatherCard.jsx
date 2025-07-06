@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { add, remove } from "./store"
+import "./WeatherCard.css"
 
 
 export default function WeatherCard({ inputDisplay, data = null }) {
@@ -87,9 +88,8 @@ export default function WeatherCard({ inputDisplay, data = null }) {
                     <h3>{currentData.name}</h3>
                     <p>{currentData.description}
                         <img src={`https://openweathermap.org/img/wn/${currentData.icon}@2x.png`} alt="Weather Icon" /></p>
-                    <p>Temperature:
-                        {tempFormat ? Math.round(currentData.temp - 273.15)
-                            : Math.round((currentData.temp - 273.15) * 1.8 + 32)}
+                    <p>Temperature: {tempFormat ? Math.round(currentData.temp - 273.15)
+                        : Math.round((currentData.temp - 273.15) * 1.8 + 32)}
                         {tempFormat ? "°C" : "°F"}</p>
                     <p>Humidity: {currentData.humidity} %</p>
                     <p>Wind Speed: {Math.round(currentData.speed * 3.6)} Km/h</p>
@@ -97,7 +97,7 @@ export default function WeatherCard({ inputDisplay, data = null }) {
                         isFavorite
                             ? dispatch(remove({ name: currentData.name }))
                             : dispatch(add(currentData))
-                    }>{isFavorite ? "❌" : "❤"}</button>
+                    }>{isFavorite ? "🤍" : "♡"}</button>
                 </div>)}
             <br />
             <button onClick={switchFormat}>
