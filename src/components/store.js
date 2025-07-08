@@ -16,6 +16,10 @@ const favoriteSlice = createSlice({
       );
       localStorage.setItem("favorites", JSON.stringify(state.value));
     },
+    toggleFormat(state) {
+      state.tempFormat =
+        state.tempFormat === "celsius" ? "fahrenheit" : "celsius";
+    },
   },
 });
 
@@ -25,6 +29,6 @@ const store = configureStore({
   },
 });
 
-export const { add, remove } = favoriteSlice.actions;
+export const { add, remove, toggleFormat } = favoriteSlice.actions;
 
 export default store;

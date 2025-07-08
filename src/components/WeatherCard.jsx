@@ -6,7 +6,7 @@ import "./WeatherCard.css"
 
 export default function WeatherCard({ inputDisplay, data = null }) {
 
-    const [tempFormat, setTempFormat] = useState(true)
+    const tempFormat = useSelector((state) => state.Favorites.tempFormat);
     const [input, setInput] = useState("")
     const [city, setCity] = useState('')
     const [weatherData, setWeatherData] = useState({})
@@ -72,9 +72,6 @@ export default function WeatherCard({ inputDisplay, data = null }) {
         setInput("");
     }
 
-    function switchFormat() {
-        setTempFormat(prev => !prev)
-    }
 
     return (
         <>{(inputDisplay) ?
@@ -88,9 +85,9 @@ export default function WeatherCard({ inputDisplay, data = null }) {
                     <h3>{currentData.name}</h3>
                     <p>{currentData.description}
                         <img src={`https://openweathermap.org/img/wn/${currentData.icon}@2x.png`} alt="Weather Icon" /></p>
-                    <p>Temperature: {tempFormat ? Math.round(currentData.temp - 273.15)
+                    <p>Temperature: {tempFormat === "celsius" ? Math.round(currentData.temp - 273.15)
                         : Math.round((currentData.temp - 273.15) * 1.8 + 32)}
-                        {tempFormat ? "°C" : "°F"}</p>
+                        {tempFormat === "celsius" ? "°C" : "°F"}</p>
                     <p>Humidity: {currentData.humidity} %</p>
                     <p>Wind Speed: {Math.round(currentData.speed * 3.6)} Km/h</p>
                     <button onClick={() =>
@@ -100,9 +97,7 @@ export default function WeatherCard({ inputDisplay, data = null }) {
                     }>{isFavorite ? "🤍" : "♡"}</button>
                 </div>)}
             <br />
-            <button onClick={switchFormat}>
-                {tempFormat ? "Celsius" : "Fahrenheit"}
-            </button>
+
         </>
     )
 }
