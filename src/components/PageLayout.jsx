@@ -10,21 +10,23 @@ export default function PageLayout({ children }) {
 
     return (
         <>
-            <nav>
-                <Link to="/">Home</Link> | <Link to="/favorites">Favorites</Link>
-            </nav>
-            <header>
-                <h1>Weather App</h1>
-            </header>
-            <main className="main-page">
-                {children}
-                <button onClick={() => dispatch(toggleFormat())}>
-                    {format === "celsius" ? "Celsius" : "Fahrenheit"}
-                </button>
-            </main>
-            <footer>
-                <p>Weather App © 2025</p>
-            </footer>
+            <div className="container">
+                <nav>
+                    <Link to="/">Home</Link> | <Link to="/favorites">Favorites</Link>
+                </nav>
+                <header>
+                    <h1>Weather App</h1>
+                </header>
+                <main className="main-page">
+                    {children}
+                    <button onClick={() => dispatch(toggleFormat())}>
+                        {format === "celsius" ? "Celsius" : "Fahrenheit"}
+                    </button>
+                </main>
+                <footer>
+                    <p>Weather App © 2025</p>
+                </footer>
+            </div>
         </>
     )
 }
